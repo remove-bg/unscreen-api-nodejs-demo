@@ -19,13 +19,13 @@ This repo contains a minimal node.js project that shows
 ## Demo time
 
 Data flow of your video file
-![Data Flow Diagram](https://raw.githubusercontent.com/remove-bg/unscreen-api-nodejs-demo/master/readme_assets/data_flow.jpg?token=AAVIZKOPTDGTUSK76GQ2WCK7UPDRW)
+![Data Flow Diagram](https://github.com/remove-bg/unscreen-api-nodejs-demo/blob/master/readme_assets/data_flow.jpg?raw=true)
 
 Video running the demo with polling
-![Polling Demo Video](https://raw.githubusercontent.com/remove-bg/unscreen-api-nodejs-demo/master/readme_assets/polling.gif?token=AAVIZKMVLFDYEDVPMEX3NYC7UPFJY)
+![Polling Demo Video](https://github.com/remove-bg/unscreen-api-nodejs-demo/blob/master/readme_assets/polling.gif?raw=true)
 
 Video running the demo with a webhook
-![Webhook Demo Video](https://raw.githubusercontent.com/remove-bg/unscreen-api-nodejs-demo/master/readme_assets/webhook.gif?token=AAVIZKNPEX3W3437I7VNATC7UPFKQ)
+![Webhook Demo Video](https://github.com/remove-bg/unscreen-api-nodejs-demo/blob/master/readme_assets/webhook.gif?raw=true)
 
 ## Your turn
 
