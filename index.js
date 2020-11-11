@@ -41,6 +41,8 @@ app.post('/upload', (req, res) => {
         url: UNSCREEN_API_VIDEOS_URL,
         data: formData,
         headers: headers,
+        'maxContentLength': Infinity,
+        'maxBodyLength': Infinity,
     })
         .then(function (response) {
             // handle success
