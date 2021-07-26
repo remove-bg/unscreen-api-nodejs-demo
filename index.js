@@ -33,6 +33,9 @@ app.post('/upload', (req, res) => {
         formData.append("background_color", "000000"); 
     }
 
+    // append the background color
+    formData.append("background_color", req.body.background_color);
+
     var headers = formData.getHeaders();
     headers['X-Api-Key'] = process.env.API_KEY;
 
