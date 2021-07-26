@@ -15,7 +15,7 @@ app.use(fileUpload());
 
 // the endpoint for our file upload form
 app.post('/upload', (req, res) => {
-    var formData = new FormData();
+    let formData = new FormData();
     let buffer = Buffer.from(req.files.video.data);
 
     formData.append("video_file", buffer, "original.mp4");
@@ -28,12 +28,12 @@ app.post('/upload', (req, res) => {
 
     // append the selected format
     formData.append("format", req.body.format);
-    if (req.body.format == "mp4") {
+    if (req.body.format === "mp4") {
         // need to add background_color because mp4 doesn't support transparency
         formData.append("background_color", "000000"); 
     }
 
-    var headers = formData.getHeaders();
+    let headers = formData.getHeaders();
     headers['X-Api-Key'] = process.env.API_KEY;
 
     axios({
@@ -48,7 +48,7 @@ app.post('/upload', (req, res) => {
             // handle success
             console.log(response.data);
 
-            if (process.env.WEBHOOK_HOST=="") {
+            if (process.env.WEBHOOK_HOST === "") {
                 // no webhook host specified so let's start polling
                 poll(response.data.data.links.self, res);
             }
@@ -73,7 +73,7 @@ function poll(url, res) {
             // handle success
             console.log(response.data);
 
-            if (response.data.data.attributes.status != 'done') {
+            if (response.data.data.attributes.status !== 'done') {
                 // poll again
                 setTimeout(function () { poll(url, res); }, 3000);
             } else {
@@ -110,7 +110,7 @@ app.post('/webhook', (req, res) => {
     console.log('webhook');
     console.log(req.body);
 
-    if (req.body.data.attributes.status == 'done') {
+    if (req.body.data.attributes.status === 'done') {
         console.log(req.body.data.attributes.result_url);
     }
 })
