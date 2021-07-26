@@ -1,4 +1,7 @@
 require('dotenv').config();
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { document } = (new JSDOM(`...`)).window;
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
@@ -48,6 +51,10 @@ app.post('/upload', (req, res) => {
             // handle success
             console.log(response.data);
 
+            //TODO: fetch response.data.links.self (with api key) in an interval of e.g. 3 seconds,
+            // update progress bar based on result: data.attributes.progress, as long as status === processing
+            fetchAndAnimateProgressBar(response.data.data.links.self);
+
             if (process.env.WEBHOOK_HOST=="") {
                 // no webhook host specified so let's start polling
                 poll(response.data.data.links.self, res);
@@ -60,6 +67,33 @@ app.post('/upload', (req, res) => {
             res.json(error);
         });
 })
+
+function fetchAndAnimateProgressBar(url) {
+    axios({
+        method: 'get',
+        url: url,
+        headers: {'X-Api-Key': process.env.API_KEY},
+    })
+        .then(function (response) {
+            // handle success
+            console.log(response.data);
+
+            if (response.data.data.attributes.status === 'preparing') {
+                const elem = document.querySelector("#bar");
+                console.log(elem);
+                const width = response.data.data.attributes.progress;
+                elem.style.width = width + "%";
+
+                setTimeout(function () {
+                    fetchAndAnimateProgressBar(url);
+                }, 3000);
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        });
+}
 
 // repeatedly fetch video information
 function poll(url, res) {

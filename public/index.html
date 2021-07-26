@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <title></title>
   <link href="style.css" rel="stylesheet" />
+    <style type="text/css">
+        #progress {
+            width: 100%;
+            background-color: grey;
+        }
+
+        #bar {
+            width: 1%;
+            height: 30px;
+            background-color: green;
+        }
+    </style>
 </head>
 <body>
     <form action="/upload" method="POST" encType="multipart/form-data">
@@ -18,6 +30,10 @@
         </select>
         <br/>
         <input type="submit">
+
+        <div id="progress">
+            <div id="bar"></div>
+        </div>
     </form>
     <br/>
     <a href="/videos">Show my unscreen videos</a>
