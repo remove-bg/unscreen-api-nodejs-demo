@@ -6,6 +6,7 @@ const axios = require('axios');
 const app = express();
 const port = 3000;
 const upload = require('./server/upload')
+const videos = require('./server/videos')
 
 const UNSCREEN_API_VIDEOS_URL = "https://api.unscreen.com/v1.0/videos";
 
@@ -17,22 +18,7 @@ app.use(fileUpload());
 app.post('/upload', upload(UNSCREEN_API_VIDEOS_URL))
 
 // fetches a list of all of your videos from the unscreen API
-app.get('/videos', (req, res) => {
-    axios({
-        method: 'get',
-        url: UNSCREEN_API_VIDEOS_URL,
-        headers: { 'X-Api-Key': process.env.API_KEY },
-    })
-        .then(function (response) {
-            // handle success
-            console.log(response.data);
-            res.json(response.data);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        });
-});
+app.get('/videos', videos(UNSCREEN_API_VIDEOS_URL));
 
 app.post('/webhook', (req, res) => {
     console.log('webhook');
