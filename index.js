@@ -5,9 +5,10 @@ const bodyParser = require('body-parser');
 const FormData = require('form-data');
 const axios = require('axios');
 const app = express();
-const port = 3000;
+var config = require('./config');
+//const port = 3000;
 
-const UNSCREEN_API_VIDEOS_URL = "https://api.unscreen.com/v1.0/videos";
+//const UNSCREEN_API_VIDEOS_URL = "https://api.unscreen.com/v1.0/videos";
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -38,7 +39,7 @@ app.post('/upload', (req, res) => {
 
     axios({
         method: 'post',
-        url: UNSCREEN_API_VIDEOS_URL,
+        url: config.UNSCREEN_API_VIDEOS_URL,
         data: formData,
         headers: headers,
         'maxContentLength': Infinity,
@@ -92,7 +93,7 @@ function poll(url, res) {
 app.get('/videos', (req, res) => {
     axios({
         method: 'get',
-        url: UNSCREEN_API_VIDEOS_URL,
+        url: config.UNSCREEN_API_VIDEOS_URL,
         headers: { 'X-Api-Key': process.env.API_KEY },
     })
         .then(function (response) {
@@ -106,6 +107,29 @@ app.get('/videos', (req, res) => {
         });
 });
 
+// remove a video
+app.get('/delete/:id', (req, res) => {
+    if (req.params.id == null)
+        res.send(400, {status:400, message: 'invalid parameter id specified'})
+
+    axios({
+        method: 'delete',
+        url: config.UNSCREEN_API_VIDEOS_URL,
+        data: { id: req.params.id},
+        headers: { 'X-Api-Key': process.env.API_KEY },
+    })
+        .then(function (response) {
+            // handle success
+            console.log(response.data);
+            res.json(response.data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        });
+        
+});
+
 app.post('/webhook', (req, res) => {
     console.log('webhook');
     console.log(req.body);
@@ -115,7 +139,7 @@ app.post('/webhook', (req, res) => {
     }
 })
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+app.listen(config.port, () => {
+    console.log(`Example app listening at http://localhost:${config.port}`)
 })
 
