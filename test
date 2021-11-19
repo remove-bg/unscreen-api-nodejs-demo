@@ -1,0 +1,3 @@
+CQBJs7XcnJvYjSVkiywaw9H6
+
+curl -X POST "https://api.unscreen.com/v1.0/videos" -H  "X-Api-Key: CQBJs7XcnJvYjSVkiywaw9H6" -F "video_file=@samples/1.mp4"
