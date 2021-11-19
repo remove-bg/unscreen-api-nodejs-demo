@@ -107,6 +107,29 @@ app.get('/videos', (req, res) => {
         });
 });
 
+// remove a video
+app.get('/delete/:id', (req, res) => {
+    if (req.params.id == null)
+        res.send(400, {status:400, message: 'invalid parameter id specified'})
+
+    axios({
+        method: 'delete',
+        url: config.UNSCREEN_API_VIDEOS_URL,
+        data: { id: req.params.id},
+        headers: { 'X-Api-Key': process.env.API_KEY },
+    })
+        .then(function (response) {
+            // handle success
+            console.log(response.data);
+            res.json(response.data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        });
+        
+});
+
 app.post('/webhook', (req, res) => {
     console.log('webhook');
     console.log(req.body);
