@@ -6,6 +6,7 @@ const FormData = require('form-data');
 const axios = require('axios');
 const app = express();
 const port = 3000;
+const path = require('path');
 
 const UNSCREEN_API_VIDEOS_URL = "https://api.unscreen.com/v1.0/videos";
 
@@ -16,9 +17,15 @@ app.use(fileUpload());
 // the endpoint for our file upload form
 app.post('/upload', (req, res) => {
     var formData = new FormData();
-    let buffer = Buffer.from(req.files.video.data);
+    if (req.files && req.files.video) {
+        const buffer = Buffer.from(req.files.video.data);
+        const filename = "original" + path.extname(req.files.video.name);
+        formData.append("video_file", buffer, filename);
+    }
+    if (req.url) {
+        formData.append("video_url", req.body.url);
+    }
 
-    formData.append("video_file", buffer, "original.mp4");
     if (process.env.WEBHOOK_HOST) {
         console.log("WEBHOOK_HOST set, using webhooks");
         formData.append("webhook_url", process.env.WEBHOOK_HOST + '/webhook');
