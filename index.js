@@ -84,6 +84,9 @@ function poll(url, res) {
                 // poll again
                 setTimeout(function () { poll(url, res); }, 3000);
             } else {
+				// Jedrzej: It is possible that the client refreshed a browser window and will not be able to download the file
+				// Jedrzej: let's include this warning in the console
+				console.log("Please note that the file might not be downloaded whenthe client refreshed the website, or navigated forward and/or clicked back button ");
                 // video processing is finished, let's redirect to the result url
                 res.redirect(response.data.data.attributes.result_url);
             }
